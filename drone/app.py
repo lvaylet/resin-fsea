@@ -19,7 +19,10 @@ import time
 import paho.mqtt.client as mqtt
 
 # region Constants
-MQTT_TOPIC = '/drone/position'  # MQTT topic to publish to
+MQTT_HOST = os.environ['MQTT_HOST']
+MQTT_PORT = int(os.environ['MQTT_PORT'])
+MQTT_TOPIC = 'drone/position'  # MQTT topic to publish to
+
 
 # endregion
 
@@ -102,8 +105,7 @@ if __name__ == '__main__':
     client.on_connect = on_connect  # called when the broker responds to the connection request
 
     logging.info('Establishing connection to central MQTT broker...')
-    client.connect(host='mqtt-broker',  # use service name from docker-compose.yml, automatically resolved by Docker
-                   port=1883)
+    client.connect(host=MQTT_HOST, port=MQTT_PORT)
 
     logging.info('Starting background thread to handle the network connection and sending/receiving data...')
     client.loop_start()
