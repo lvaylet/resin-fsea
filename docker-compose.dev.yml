@@ -1,7 +1,12 @@
 version: '3'
 services:
   dashboard:
-    build: ./dashboard
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /usr/src/app/node_modules  # prevent node_modules from being overwritten by the above
+      - ./dashboard:/usr/src/app  # hot reloading
     ports:
       - "8080:8080"
 
