@@ -3,9 +3,10 @@ FROM node:8-alpine
 WORKDIR /usr/src/app
 
 COPY package.json ./
+COPY package-lock.json ./
 RUN npm install --quiet
 
 COPY . ./
 
 EXPOSE 8080
-CMD [ "node", "app.js" ]
+CMD [ "npm", "run", "serve" ]

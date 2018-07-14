@@ -28,7 +28,7 @@ MQTT_TOPIC = 'drone/position'  # MQTT topic to publish to
 
 
 # region Logging
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 
 # endregion
