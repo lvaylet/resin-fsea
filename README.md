@@ -24,19 +24,36 @@ docker-compose logs -f
 # Architecture Diagram
 
 ```
-+ - - - +                + - - - - - - - - - +
++ - - - +      (2)       + - - - - - - - - - +
 | Drone | -- publish --> |                   |
 + - - - +                |                   |
-                         |                   |                  + - - - - - +
-+ - - - +                | MQTT Broker       | <-- subscribe -- |           |
-| Drone | -- publish --> | eclipse-mosquitto |                  | Dashboard |
-+ - - - +                | /drone/position   | --- publish ---> |           |
-                         |                   |                  + - - - - - +
-+ - - - +                |                   |
+                         |                   |        (1)       + - - - - - +
++ - - - +      (2)       |    MQTT Broker    | <-- subscribe -- |           |
+| Drone | -- publish --> |                   |                  | Dashboard |
++ - - - +                |  /drone/position  | --- publish ---> |           |
+                         |                   |       (3)        + - - - - - +
++ - - - +      (2)       |                   |
 | Drone | -- publish --> |                   |
 + - - - +                + - - - - - - - - - +
 ```
 
+For a constrained Internet of Things (IoT) application such at this one, a publish/subscribe design pattern using the MQTT protocol seems to be a perfect fit.
+
+Quoting the official MQTT 3.1.1 specification:
+
+> MQTT is a Client Server publish/subscribe messaging transport protocol. It is light weight, open, simple, and designed so as to be easy to implement. These characteristics make it ideal for use in many situations, including constrained environments such as for communication in Machine to Machine (M2M) and Internet of Things (IoT) contexts where a small code footprint is required and/or network bandwidth is at a premium.
+
+The publish/subscribe pattern (also known as pub/sub) provides an alternative to traditional client/server architecture. In the client/server model, a client communicates directly with an endpoint. The pub/sub model decouples the client that sends a message (the publisher) from the client or clients that receive the messages (the subscribers). The publishers and subscribers never contact each other directly. In fact, they are not even aware that the other exists. The connection between them is handled by a third component (the broker). The job of the broker is to filter all incoming messages and distribute them correctly to subscribers.
+
+The most important aspect of pub/sub is the decoupling of the publisher of the message from the recipient (subscriber). This decoupling has several dimensions:
+- Space decoupling: Publisher and subscriber do not need to know each other (for example, no exchange of IP address and port).
+- Time decoupling: Publisher and subscriber do not need to run at the same time.
+- Synchronization decoupling: Operations on both components do not need to be interrupted during publishing or receiving.
+
+Applying this design pattern to our use case, and from the architecture diagram above:
+1. The dashboard is a client that subscribes to a single `/drone/position` topic
+2. The drones publish their geo-location data to the same topic on the Broker
+3. The broker distribute all the messages to the dashboard, so the dashboard can store and post-process all the data
 
 # Assumptions
 
@@ -44,10 +61,10 @@ docker-compose logs -f
 
 # Notes
 
-This assignment... | A real-world project would instead...
+This assignment... | A real-world project could instead...
 --- | ---
-Simulates drones and hardware failures with Python code | Display data about actual drones that transmit data over a cellular connection
-Hard-codes the list of drones in `docker-compose.yml` | Rely on a discovery service to dynamically fetch existing and new devices in a Resin.io application
+Simulates drones and hardware failures (like connectivity drops) with Python code | Display the geo-location of actual drones whose production code is managed and deployed with Resin.io
+Hard-codes a small list of drones in `docker-compose.yml` | Rely on a discovery service to dynamically fetch existing and new devices in a Resin.io application
 Uses a single repo for the dashboard, the MQTT broker and the dummy drones | Separate repos for the individual components
 Relies on local instances of Docker and Docker Compose to pull/build and coordinate all the services in the repo | Rely on a CI/CD toolchain to build, test and push the Docker images of the individual components to a centralized registry
-Stores geo-location in-memory and does not persist anything (i.e. all data is lost on `docker-compose down`) | Store geo-location data in a database or at least a cache (like Redis)
+Stores geo-location in-memory and does not persist anything (i.e. all data is lost on `docker-compose down`). The dashboard is a direct subscriber of the MQTT broker. | Store geo-location data in a database (or at least a cache like Redis) decoupled from the presentation layer (i.e. the dashboard). The storage layer would be a direct subscriber of the MQTT broker.
