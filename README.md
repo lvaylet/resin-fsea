@@ -61,6 +61,13 @@ Applying this design pattern to our use case, and from the architecture diagram 
 
 # Notes
 
+- [PyCharm](https://www.jetbrains.com/pycharm/) was used for everything related to Python development. JetBrains's IDE has built-in support for virtual environments, linting and versioning with git.
+- [Atom](https://atom.io/) was used for everything else (mainly [Node.js](https://nodejs.org/en/) and [Vue.js](https://vuejs.org/)
+development). GitHub's editor also has a wealth of plugins for linting, testing, versioning...
+- The dashboard is built with Vue.js and a few libraries from its  ecosystem (like [Vue-Mqtt](https://github.com/nik-zp/Vue-Mqtt) to easily subscribe and react to MQTT topics). [Vue CLI](https://cli.vuejs.org/) and [Webpack](https://webpack.js.org/) was used to scaffold, build and package the dashboard web application.
+
+Finally, there are a few key differences between such an exercise and a real-world project:
+
 This assignment... | A real-world project could instead...
 --- | ---
 Simulates drones and hardware failures (like connectivity drops) with Python code | Display the geo-location of actual drones whose production code is managed and deployed with Resin.io
