@@ -23,7 +23,20 @@ docker-compose logs -f
 
 # Architecture Diagram
 
-> TODO
+```
++ - - - +                + - - - - - - - - - +
+| Drone | -- publish --> |                   |
++ - - - +                |                   |
+                         |                   |                  + - - - - - +
++ - - - +                | MQTT Broker       | <-- subscribe -- |           |
+| Drone | -- publish --> | eclipse-mosquitto |                  | Dashboard |
++ - - - +                | /drone/position   | --- publish ---> |           |
+                         |                   |                  + - - - - - +
++ - - - +                |                   |
+| Drone | -- publish --> |                   |
++ - - - +                + - - - - - - - - - +
+```
+
 
 # Assumptions
 
@@ -31,4 +44,10 @@ docker-compose logs -f
 
 # Notes
 
-> TODO
+This assignment... | A real-world project would instead...
+--- | ---
+Simulates drones and hardware failures with Python code | Display data about actual drones that transmit data over a cellular connection
+Hard-codes the list of drones in `docker-compose.yml` | Rely on a discovery service to dynamically fetch existing and new devices in a Resin.io application
+Uses a single repo for the dashboard, the MQTT broker and the dummy drones | Separate repos for the individual components
+Relies on local instances of Docker and Docker Compose to pull/build and coordinate all the services in the repo | Rely on a CI/CD toolchain to build, test and push the Docker images of the individual components to a centralized registry
+Stores geo-location in-memory and does not persist anything (i.e. all data is lost on `docker-compose down`) | Store geo-location data in a database or at least a cache (like Redis)
