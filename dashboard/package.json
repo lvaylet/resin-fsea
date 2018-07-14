@@ -1,0 +1,8 @@
+{
+    "name": "dashboard",
+    "description": "Drone Fleet Management Dashboard",
+    "version": "0.0.1",
+    "dependencies": {
+        "mqtt": "^2.18.2"
+    }
+}
