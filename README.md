@@ -11,6 +11,27 @@ The dashboard should be a simple single-page application displaying the list of 
 ```bash
 git clone https://github.com/lvaylet/resin-fsea.git
 cd resin-fsea
+```
+
+Then you can run either the development or the production version of the app. The development version has hot reloading for live editing of source code, heavily inspired by [Rapid development with Node.js and Docker
+](https://finnian.io/blog/rapid-development-with-node-js-and-docker/). The production version is minified and optimized.
+
+## Development
+
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
+Logs will be displayed on screen. Alternatively, you can run the services in the background and request logs separately:
+
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d
+docker-compose logs -f
+```
+
+## Production
+
+```bash
 docker-compose up --build
 ```
 
