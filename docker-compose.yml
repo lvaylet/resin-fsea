@@ -18,5 +18,5 @@ services:
     depends_on:
       - mqtt-broker  # wait for MQTT broker to be started
     environment:
-      - UUID=7ebf7ece-1332-44ad-8f3a-db72245eded5
+      - UUID=7ebf7ece-1332-44ad-8f3a-db72245eded5  # generated with https://www.uuidgenerator.net/
       - NAME=drone1
