@@ -64,7 +64,7 @@ Applying this design pattern to our use case, and from the architecture diagram 
 - [PyCharm](https://www.jetbrains.com/pycharm/) was used for everything related to Python development. JetBrains's IDE has built-in support for virtual environments, linting and versioning with git.
 - [Atom](https://atom.io/) was used for everything else (mainly [Node.js](https://nodejs.org/en/) and [Vue.js](https://vuejs.org/)
 development). GitHub's editor also has a wealth of plugins for linting, testing, versioning...
-- The dashboard is built with Vue.js and a few libraries from its  ecosystem (like [Vue-Mqtt](https://github.com/nik-zp/Vue-Mqtt) to easily subscribe and react to MQTT topics). [Vue CLI](https://cli.vuejs.org/) and [Webpack](https://webpack.js.org/) was used to scaffold, build and package the dashboard web application.
+- The dashboard is built with Vue.js and a few libraries from its  ecosystem (like [Vue-Mqtt](https://github.com/nik-zp/Vue-Mqtt) to easily subscribe and react to MQTT topics). [Vue CLI](https://cli.vuejs.org/) is used to scaffold, build and package the dashboard web application. It features out-of-the-box support for Babel, TypeScript, ESLint, PostCSS, PWA, unit testing & end-to-end testing, as well as hot reloading during development.
 
 Finally, there are a few key differences between such an exercise and a real-world project:
 
