@@ -75,11 +75,12 @@ export default {
     'drone/position' (data) {
       // Extract JSON payload from data
       let jsonPayload = JSON.parse(String.fromCharCode.apply(null, data))
-      // Append JSON payload to debug data
+
+      // Append JSON payload to debug data to help troubleshoot potential issues
       this.messages.push(jsonPayload)
 
-      // Update `drones` data property with Vue.set so the new/updated preoperty
-      // is reactive.
+      // Update `drones` data property.
+      // Use Vue.set to make sure the new/updated property is reactive.
       // See https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats
       let uuid = jsonPayload.uuid
       this.$set(this.drones, uuid, {
