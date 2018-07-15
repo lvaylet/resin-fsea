@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
     # Publish geo-location and metadata every 5 seconds
     while True:
-        timestamp = int(time.time()),  # number of seconds since the epoch (January 1st, 1970 in UTC)
+        timestamp = int(time.time())  # number of seconds since the epoch (January 1st, 1970 in UTC)
         # TODO JSON is not the best option to minimize data usage over cellular connection. Investigate binary frames.
         payload = {
             'ts': timestamp,
@@ -130,8 +130,9 @@ if __name__ == '__main__':
             'longitude': drone.longitude
         }
 
-        logging.info('Publishing current position to topic [%s]...', MQTT_TOPIC)
-        client.publish(MQTT_TOPIC, json.dumps(payload))
+        payload_json = json.dumps(payload)
+        logging.info('Publishing geo-location data [%s] to topic [%s]...', payload_json, MQTT_TOPIC)
+        client.publish(MQTT_TOPIC, payload_json)
 
         time.sleep(5)
 

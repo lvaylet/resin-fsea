@@ -70,7 +70,7 @@ export default {
       // See https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats
       let uuid = jsonPayload.uuid
       this.$set(this.drones, uuid, {
-        ts: jsonPayload.ts[0],  // FIXME Investigate why ts is an array
+        ts: jsonPayload.ts,
         name: jsonPayload.name,
         latitudeInDegrees: jsonPayload.latitude,
         longitudeInDegrees: jsonPayload.longitude
