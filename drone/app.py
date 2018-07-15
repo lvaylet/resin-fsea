@@ -76,8 +76,8 @@ class Drone:
         return self.__longitude
 
     def move(self):
-        self.__latitude += random.uniform(-0.001, 0.001)
-        self.__longitude += random.uniform(-0.001, 0.001)
+        self.__latitude += random.uniform(-0.0005, 0.0005)
+        self.__longitude += random.uniform(-0.0005, 0.0005)
 
 
 # endregion
