@@ -35,7 +35,7 @@ docker-compose logs -f
 docker-compose up --build
 ```
 
-Logs will be displayed on screen. Alternatively, you can run the services in the background and request logs separately:
+Similarly to development, you can run the services in the background and request logs separately:
 
 ```bash
 docker-compose up --build -d
@@ -43,20 +43,6 @@ docker-compose logs -f
 ```
 
 # Architecture Diagram
-
-```
-+ - - - +      (2)       + - - - - - - - - - +
-| Drone | -- publish --> |                   |
-+ - - - +                |                   |
-                         |                   |        (1)       + - - - - - +
-+ - - - +      (2)       |    MQTT Broker    | <-- subscribe -- |           |
-| Drone | -- publish --> |                   |                  | Dashboard |
-+ - - - +                |  /drone/position  | --- publish ---> |           |
-                         |                   |       (3)        + - - - - - +
-+ - - - +      (2)       |                   |
-| Drone | -- publish --> |                   |
-+ - - - +                + - - - - - - - - - +
-```
 
 For a constrained Internet of Things (IoT) application such at this one, a publish/subscribe design pattern using the MQTT protocol seems to be a perfect fit.
 
@@ -71,14 +57,30 @@ The most important aspect of pub/sub is the decoupling of the publisher of the m
 - Time decoupling: Publisher and subscriber do not need to run at the same time.
 - Synchronization decoupling: Operations on both components do not need to be interrupted during publishing or receiving.
 
+```
++ - - - +      (2)       + - - - - - - - - - +
+| Drone | -- publish --> |                   |
++ - - - +                |                   |
+                         |                   |        (1)       + - - - - - +
++ - - - +      (2)       |    MQTT Broker    | <-- subscribe -- |           |
+| Drone | -- publish --> |                   |                  | Dashboard |
++ - - - +                |   drone/position  | --- publish ---> |           |
+                         |                   |       (3)        + - - - - - +
++ - - - +      (2)       |                   |
+| Drone | -- publish --> |                   |
++ - - - +                + - - - - - - - - - +
+```
+
 Applying this design pattern to our use case, and from the architecture diagram above:
-1. The dashboard is a client that subscribes to a single `/drone/position` topic
-2. The drones publish their geo-location data to the same topic on the Broker
-3. The broker distribute all the messages to the dashboard, so the dashboard can store and post-process all the data
+1. The dashboard is a client that subscribes to the `drone/position` topic
+2. The drones publish their geo-location data to the same topic on the broker
+3. The broker distribute all the messages to the dashboard, so the dashboard can store and post-process all the data in real-time
 
 # Assumptions
 
-- The drones firmware exists. I focused on determining how the firmware will send information to the backend. to the dashboard.
+- The drones firmware exists. I focused on determining how the firmware will send information to the backend (i.e. the dashboard). Hence the drones are simulated with Python code. They publish their latitude and longitude along other metadata (uuid, name, timestamp of the measurement) to the MQTT broker.
+- For the sake of simplicity, I used a free MQTT broker from Eclipse IoT at iot.eclipse.org (over HTTP, HTTPS and WebSockets).
+- I could have gone for a single-file SPA application written entirely in Node.js, including the pub/sub infrastructure. I decided to mimic a real-world system instead and use various technologies and programming languages, spread across multiple services in Docker Compose. Drones are implemented in Python and the dashboard is built with Node.js and Vue.js.
 
 # Notes
 
@@ -96,3 +98,5 @@ Hard-codes a small list of drones in `docker-compose.yml` | Rely on a discovery 
 Uses a single repo for the dashboard, the MQTT broker and the dummy drones | Separate repos for the individual components
 Relies on local instances of Docker and Docker Compose to pull/build and coordinate all the services in the repo | Rely on a CI/CD toolchain to build, test and push the Docker images of the individual components to a centralized registry
 Stores geo-location in-memory and does not persist anything (i.e. all data is lost on `docker-compose down`). The dashboard is a direct subscriber of the MQTT broker. | Store geo-location data in a database (or at least a cache like Redis) decoupled from the presentation layer (i.e. the dashboard). The storage layer would be a direct subscriber of the MQTT broker.
+Has very simple, in-house CSS styling | Rely on proven CSS and component frameworks like [Quasar](https://quasar-framework.org/) or [Bulma](https://bulma.io/)
+Publishes and subscribes to a public free MQTT broker (iot.eclipse.org) | Use a dedicated (and private?) MQTT broker like [Eclipse Mosquitto](https://hub.docker.com/_/eclipse-mosquitto/)
