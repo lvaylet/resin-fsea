@@ -8,15 +8,22 @@ The dashboard should be a simple single-page application displaying the list of 
 
 # Usage
 
+## Cloning the repo
+
 ```bash
 git clone https://github.com/lvaylet/resin-fsea.git
 cd resin-fsea
 ```
 
-Then you can run either the development or the production version of the app. The development version has hot reloading for live editing of source code, heavily inspired by [Rapid development with Node.js and Docker
-](https://finnian.io/blog/rapid-development-with-node-js-and-docker/). The production version is minified and optimized.
+Then the repo includes two sets of Dockerfiles and Docker Compose files for development and production.
+- The development version has hot reloading for live editing of source code, heavily inspired by [Rapid development with Node.js and Docker
+](https://finnian.io/blog/rapid-development-with-node-js-and-docker/).
+- The production version is minified and optimized by the build process then served with Nginx, as detailed in [Using Docker Multi-Stage Builds for SPAs
+](https://zupzup.org/docker-multi-stage-react/).
 
-## Development
+## Running the development environment
+
+The development environment uses the production `docker-compose.yml` file and overloads some settings with a dedicated `docker-compose.dev.yml` file:
 
 ```bash
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
@@ -29,7 +36,9 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build -d
 docker-compose logs -f
 ```
 
-## Production
+The dashboard can be accessed at http://localhost:8080. Then you are free to edit the source code in your favorite editor. The changes will be picked up automatically and recompiled in real-time. Just refresh the dashboard to test your latest additions.
+
+## Running the production environment
 
 ```bash
 docker-compose up --build
@@ -41,6 +50,26 @@ Similarly to development, you can run the services in the background and request
 docker-compose up --build -d
 docker-compose logs -f
 ```
+
+The dashboard can be accessed at http://localhost:80.
+
+## Simulating a drone failure
+
+You can simulate a drone failure (like a crash or a cellular connection drop) by stopping and restarting one or multiple drone services:
+
+```bash
+docker-compose stop drone2
+```
+
+Note that the associated dashboard item turns red after a few seconds to indicate the drone has not transmitted data over the last 10 seconds.
+
+You can restart the drone with:
+
+```bash
+docker-compose start drone2
+```
+
+and confirm the dashboard picks up the latest data transfer, i.e. the `drone2` row is no longer highlighted.
 
 # Architecture Diagram
 
@@ -89,7 +118,7 @@ Applying this design pattern to our use case, and from the architecture diagram 
 development). GitHub's editor also has a wealth of plugins for linting, testing, versioning...
 - The dashboard is built with Vue.js and a few libraries from its  ecosystem (like [Vue-Mqtt](https://github.com/nik-zp/Vue-Mqtt) to easily subscribe and react to MQTT topics). [Vue CLI](https://cli.vuejs.org/) is used to scaffold, build and package the dashboard web application. It features out-of-the-box support for Babel, TypeScript, ESLint, PostCSS, PWA, unit testing & end-to-end testing, as well as hot reloading during development.
 
-Finally, there are a few key differences between such an exercise and a real-world project:
+Finally, there are a few key differences between such an assignment and a real-world project:
 
 This assignment... | A real-world project could instead...
 --- | ---
@@ -100,3 +129,8 @@ Relies on local instances of Docker and Docker Compose to pull/build and coordin
 Stores geo-location in-memory and does not persist anything (i.e. all data is lost on `docker-compose down`). The dashboard is a direct subscriber of the MQTT broker. | Store geo-location data in a database (or at least a cache like Redis) decoupled from the presentation layer (i.e. the dashboard). The storage layer would be a direct subscriber of the MQTT broker.
 Has very simple, in-house CSS styling | Rely on proven CSS and component frameworks like [Quasar](https://quasar-framework.org/) or [Bulma](https://bulma.io/)
 Publishes and subscribes to a public free MQTT broker (iot.eclipse.org) | Use a dedicated (and private?) MQTT broker like [Eclipse Mosquitto](https://hub.docker.com/_/eclipse-mosquitto/)
+
+# TODO
+
+- Add tests and include `npm run test` in multi-stage build for production (drawing inspiration from https://codefresh.io/docker-tutorial/node_docker_multistage/)
+- Investigate better options for MQTT messages. JSON is quite verbose and does not meet the objective of using as little data as possible over cellular connection. Binary or Avro frames might be better options, as long they are easy to decode on the JavaScript side.

@@ -1,4 +1,6 @@
-version: '3'
+# Development compose file (docker-compose.dev.yml)
+version: '3.2'
+
 services:
   dashboard:
     build:
@@ -9,27 +11,3 @@ services:
       - ./dashboard:/usr/src/app  # hot reloading
     ports:
       - "8080:8080"
-
-  drone1:
-    build: ./drone
-    environment:
-      - UUID=7ebf7ece-1332-44ad-8f3a-db72245eded5  # generated with https://www.uuidgenerator.net/
-      - NAME=drone1
-      - MQTT_HOST=iot.eclipse.org
-      - MQTT_PORT=1883
-
-  drone2:
-    build: ./drone
-    environment:
-      - UUID=487f03af-c0bd-4b5e-bb8c-486f544bf1ba  # generated with https://www.uuidgenerator.net/
-      - NAME=drone2
-      - MQTT_HOST=iot.eclipse.org
-      - MQTT_PORT=1883
-
-  drone3:
-    build: ./drone
-    environment:
-      - UUID=832efef3-e2a0-4c03-ab02-baeb7aeee13d  # generated with https://www.uuidgenerator.net/
-      - NAME=drone3
-      - MQTT_HOST=iot.eclipse.org
-      - MQTT_PORT=1883
