@@ -1,10 +1,23 @@
 <template>
-  <div class="sub">
-    <ul>
-      <li v-for="drone in drones" :key="drone.name">
-        {{ drone.name }} geo-location data received at {{ drone.ts }}: {{ drone.latitudeInDegrees }}, {{ drone.longitudeInDegrees }}
-      </li>
-    </ul>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Timestamp</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(drone, uuid) in drones" :key="uuid">
+          <td>{{ drone.name }}</td>
+          <td>{{ drone.ts }}</td>
+          <td>{{ drone.latitudeInDegrees }}</td>
+          <td>{{ drone.longitudeInDegrees }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
