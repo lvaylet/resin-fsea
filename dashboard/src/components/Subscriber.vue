@@ -22,7 +22,8 @@
  * @param {str} unit - The unit desired for results ('M' is statute miles (default), 'K' is kilometers, 'N' is nautical miles)
  * @returns {float} - The distance in desired unit
  */
-function distance(lat1, lon1, lat2, lon2, unit='M') {
+// eslint-disable-next-line
+function computeDistance(lat1, lon1, lat2, lon2, unit='M') {
 	var radlat1 = Math.PI * lat1/180
 	var radlat2 = Math.PI * lat2/180
 	var theta = lon1 - lon2
@@ -45,7 +46,8 @@ function distance(lat1, lon1, lat2, lon2, unit='M') {
  * @param {int} ts2 - The latitude of point 2 (in seconds)
  * @returns {float} - The speed in the same unit as the distance (statute miles/second, kilometers/second or nautical miles/second)
  */
-function speed(distance, ts1, ts2) {
+// eslint-disable-next-line
+function computeSpeed(distance, ts1, ts2) {
   return distance / (ts2 - ts1)
 }
 
