@@ -118,6 +118,9 @@ if __name__ == '__main__':
         initial_longitude=2.212730400000055  # TODO Use env (like for UUID and NAME)
     )
 
+    # Introduce random delay before publishing first data, so all drones are not synchronized
+    time.sleep(random.uniform(0, 3))  # between 0 and 3 seconds
+
     # Publish geo-location and metadata every 5 seconds
     while True:
         timestamp = int(time.time())  # number of seconds since the epoch (January 1st, 1970 in UTC)
