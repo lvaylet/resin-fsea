@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h1>Fleet Management Dashboard</h1>
     <subscriber></subscriber>
   </div>
 </template>
