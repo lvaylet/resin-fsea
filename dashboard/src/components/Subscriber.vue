@@ -5,6 +5,7 @@
         <tr>
           <th>Name</th>
           <th>Timestamp</th>
+          <th>Last Update</th>
           <th>Latitude</th>
           <th>Longitude</th>
         </tr>
@@ -13,6 +14,9 @@
         <tr v-for="(drone, uuid) in drones" :key="uuid">
           <td>{{ drone.name }}</td>
           <td>{{ drone.ts }}</td>
+          <td>
+            {{ getCurrentTime() - drone.ts }} seconds ago
+          </td>
           <td>{{ drone.latitudeInDegrees }}</td>
           <td>{{ drone.longitudeInDegrees }}</td>
         </tr>
@@ -69,6 +73,18 @@ export default {
     return {
       drones: {},
       messages: []
+    }
+  },
+  methods: {
+    /**
+     * Return the number of seconds since epoch.
+     *
+     * @returns {int} - The number of seconds since epoch.
+     */
+    getCurrentTime: function () {
+      let d = new Date()
+      let seconds = Math.round(d.getTime() / 1000)
+      return seconds
     }
   },
   mqtt: {
