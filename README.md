@@ -129,6 +129,7 @@ Relies on local instances of Docker and Docker Compose to pull/build and coordin
 Stores geo-location in-memory and does not persist anything (i.e. all data is lost on `docker-compose down`). The dashboard is a direct subscriber of the MQTT broker. | Store geo-location data in a database (or at least a cache like Redis) decoupled from the presentation layer (i.e. the dashboard). The storage layer would be a direct subscriber of the MQTT broker.
 Has very simple, in-house CSS styling | Rely on proven CSS and component frameworks like [Quasar](https://quasar-framework.org/) or [Bulma](https://bulma.io/)
 Publishes and subscribes to a public free MQTT broker (iot.eclipse.org) | Use a dedicated (and private?) MQTT broker like [Eclipse Mosquitto](https://hub.docker.com/_/eclipse-mosquitto/)
+Only has commits and pushes to the `master` branch, mostly because I am the only developer. The TODO list is handled at the bottom of this `README.md`. | Use git branches, peer programming reviews and pull requests to improve quality and security. Tickets (like TODO items, bugs and improvements) could be handled in GitHub issues or JIRA.
 
 # TODO
 
