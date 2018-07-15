@@ -1,8 +1,8 @@
 <template>
   <div class="sub">
     <ul>
-      <li v-for="message in messages" :key="message">
-        {{ message }}
+      <li v-for="drone in drones" :key="drone.name">
+        {{ drone.name }} geo-location data received at {{ drone.ts }}: {{ drone.latitudeInDegrees }}, {{ drone.longitudeInDegrees }}
       </li>
     </ul>
   </div>
@@ -52,13 +52,27 @@ function speed(distance, ts1, ts2) {
 export default {
   data () {
     return {
+      drones: {},
       messages: []
     }
   },
   mqtt: {
     'drone/position' (data) {
-      let message = String.fromCharCode.apply(null, data)
-      this.messages.push(message)
+      // Extract JSON payload from data
+      let jsonPayload = JSON.parse(String.fromCharCode.apply(null, data))
+      // Append JSON payload to debug data
+      this.messages.push(jsonPayload)
+
+      // Update `drones` data property with Vue.set so the new/updated preoperty
+      // is reactive.
+      // See https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats
+      let uuid = jsonPayload.uuid
+      this.$set(this.drones, uuid, {
+        ts: jsonPayload.ts[0],  // FIXME Investigate why ts is an array
+        name: jsonPayload.name,
+        latitudeInDegrees: jsonPayload.latitude,
+        longitudeInDegrees: jsonPayload.longitude
+      })
     }
   }
 }
