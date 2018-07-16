@@ -133,5 +133,6 @@ Only has commits and pushes to the `master` branch, mostly because I am the only
 
 # TODO
 
-- Add tests and include `npm run test` in multi-stage build for production (drawing inspiration from https://codefresh.io/docker-tutorial/node_docker_multistage/)
+- Add unit tests and include `npm run test` in multi-stage build for production (drawing inspiration from https://codefresh.io/docker-tutorial/node_docker_multistage/). Use Vue CLI plugins to quickly add Mocha and Chai: `vue add @vue/unit-mocha`
 - Investigate better options for MQTT messages. JSON is quite verbose and does not meet the objective of using as little data as possible over cellular connection. Binary or Avro frames might be better options, as long they are easy to decode on the JavaScript side.
+- Use Bulma CSS (just install `node-sass` and `sass-loader`, then reference SCSS file in `App.vue`: `<style lang="scss">@import '~bulma/bulma.sass';</style>`
