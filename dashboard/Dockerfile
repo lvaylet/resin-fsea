@@ -12,7 +12,8 @@ RUN npm install --quiet
 
 COPY . ./
 
-RUN npm run build
+# Run unit tests and build to dist/ on success
+RUN npm run test:unit && npm run build
 
 #
 # ---- Serve with Nginx ---
