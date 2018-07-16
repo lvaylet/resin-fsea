@@ -18,7 +18,7 @@ cd resin-fsea
 Then the repo includes two sets of Dockerfiles and Docker Compose files for development and production.
 - The development version has hot reloading for live editing of source code, heavily inspired by [Rapid development with Node.js and Docker
 ](https://finnian.io/blog/rapid-development-with-node-js-and-docker/).
-- The production version is minified and optimized by the build process then served with Nginx, as detailed in [Using Docker Multi-Stage Builds for SPAs
+- The production version runs unit tests, then minifies and optimizes the application in a `dist/` folder later served by Nginx, as detailed in [Using Docker Multi-Stage Builds for SPAs
 ](https://zupzup.org/docker-multi-stage-react/).
 
 ## Running the development environment
