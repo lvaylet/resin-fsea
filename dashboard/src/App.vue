@@ -1,6 +1,17 @@
 <template>
   <div id="app">
-    <h1>Fleet Management Dashboard</h1>
+    <section class="hero is-primary">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Fleet Management
+          </h1>
+          <h2 class="subtitle">
+            Real-time geo-location and speed of your drones
+          </h2>
+        </div>
+      </div>
+    </section>
     <subscriber></subscriber>
   </div>
 </template>
@@ -19,11 +30,6 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
+<style lang="scss">
+  @import '~bulma/bulma.sass';
 </style>
