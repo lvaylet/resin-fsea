@@ -12,7 +12,7 @@ RUN npm install --quiet
 
 COPY . ./
 
-CMD [ "npm", "run", "build" ]
+RUN npm run build
 
 #
 # ---- Serve with Nginx ---
