@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table id="drones">
+    <table class="table is-striped is-hoverable is-fullwidth">
       <thead>
         <tr>
           <th>Name</th>
@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(drone, uuid) in drones" :key="uuid" :class="{ error: Math.abs(getCurrentTime() - drone.ts) > 10 }">
+        <tr v-for="(drone, uuid) in drones" :key="uuid" :class="{ 'is-selected': Math.abs(getCurrentTime() - drone.ts) > 10 }">
           <td>{{ drone.name }}</td>
           <td>{{ Math.abs(getCurrentTime() - drone.ts) }} seconds ago</td>
           <td>{{ drone.latitudeInDegrees }}</td>
@@ -141,33 +141,5 @@ export default {
 </script>
 
 <style>
-#drones {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#drones td, #drones th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#drones tr.error {
-  color: #ff0000;
-}
-
-#drones tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-#drones tr:hover {
-  background-color: #ddd;
-}
-
-#drones th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #4CAF50;
-  color: white;
-}
+  .error: { color: #ff0000; }
 </style>

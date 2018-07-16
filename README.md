@@ -61,7 +61,7 @@ You can simulate a drone failure (like a crash or a cellular connection drop) by
 docker-compose stop drone2
 ```
 
-Note that the associated dashboard item turns red after a few seconds to indicate the drone has not transmitted data over the last 10 seconds.
+Note that the associated dashboard item gets highlighted after a few seconds to indicate the drone has not transmitted data over the last 10 seconds.
 
 You can restart the drone with:
 

@@ -12,7 +12,11 @@
         </div>
       </div>
     </section>
-    <subscriber></subscriber>
+    <section class="section">
+      <div class="container">
+        <subscriber></subscriber>
+      </div>
+    </section>
   </div>
 </template>
 
