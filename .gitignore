@@ -1,8 +1,11 @@
+# MacOS
 .DS_Store
-node_modules
-/dist
 
-# local env files
+# Node.js
+node_modules/
+dist/
+
+# Local env files
 .env.local
 .env.*.local
 
